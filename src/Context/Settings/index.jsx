@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 export const SettingsContext= React.createContext();
 
 const SettingsProvider = ({ children }) => {
-  
+
   const [displayCount, setDisplayCount] = useState(3);
-  const [showComplete, setShowComplete] = useState(false);
+  const [showComplete, setShowComplete] = useState(true);
   const [sort, setSort] = useState('difficulty');
   // const [displayCount, setDisplayCount] = useState(3);
 

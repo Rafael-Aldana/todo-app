@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
-import { createStyles, Grid } from '@mantine/core'
-//useContext, 
-// import { SettingsContext } from '../../Context/Settings';
+import { Button, Card, createStyles, Grid, Slider, Text, TextInput } from '@mantine/core'
 import { v4 as uuid } from 'uuid';
 import List from '../List';
 
 
 const useStyles = createStyles((theme) => ({
   h1: {
-  backgroundColor: theme.colors.gray[8],
-  color: theme.colors.gray[0],
-  width: '80%',
-  margin: 'auto',
-  fontSize: theme.fontSizes.lg,
-  padding: theme.spacing.md,
-  marginTop: theme.spacing.md,
-  marginBottom: theme.spacing.md,
-}
+    backgroundColor: theme.colors.gray[8],
+    color: theme.colors.gray[0],
+    width: '80%',
+    margin: 'auto',
+    fontSize: theme.fontSizes.lg,
+    padding: theme.spacing.md,
+    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+  }
 }));
 
 const Todo = () => {
-const { classes } = useStyles();
+  const { classes } = useStyles();
 
   const [defaultValues] = useState({
     difficulty: 4,
@@ -38,7 +36,7 @@ const { classes } = useStyles();
   }
 
   function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+    const items = list.filter(item => item.id !== id);
     setList(items);
   }
 
@@ -70,35 +68,49 @@ const { classes } = useStyles();
       <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {incomplete} items pending</h1>
       <Grid style={{ width: '80%', margin: 'auto' }}>
         <Grid.Col xs={12} sm={4}>
-          <form onSubmit={handleSubmit}>
+          <Card withBorder>
+            <form onSubmit={handleSubmit}>
 
-            <h2>Add To Do Item</h2>
+              <h2>Add To Do Item</h2>
+              <TextInput
+                mt="sm"
+                placeholder="Item Details"
+                label="To Do Item"
+                onChange={handleChange}
+                name="text"
+              />
 
-            <label>
-              <span>To Do Item</span>
-              <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-            </label>
+              <TextInput
+                mt="sm"
+                placeholder="Assignee Name"
+                label="Assigned To"
+                onChange={handleChange}
+                name="assignee"
+              />
 
-            <label>
-              <span>Assigned To</span>
-              <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-            </label>
+              <Text>Difficulty</Text>
+              <Slider
+                mt="sm"
+                defaultValue={defaultValues.difficulty}
+                min={1}
+                max={5}
+                label={(value) => value.toFixed(1)}
+                step={1}
+                styles={{ markLabel: { display: 'none' } }}
+              />
 
-            <label>
-              <span>Difficulty</span>
-              <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-            </label>
+              <Button mt="sm" type="submit">Add Item</Button>
 
-            <label>
-              <button type="submit">Add Item</button>
-            </label>
-          </form>
+            </form>
+          </Card>
         </Grid.Col>
-
         <Grid.Col md={12} lg={8}>
-          <List list={list} toggleComplete={toggleComplete} />
+          <List
+            list={list}
+            toggleComplete={toggleComplete}
+            deleteItem={deleteItem}
+          />
         </Grid.Col>
-
       </Grid>
     </>
   );
